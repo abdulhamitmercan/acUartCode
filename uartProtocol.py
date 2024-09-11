@@ -1,5 +1,5 @@
 from uartHal import UARTFrame, recieveframe, RxTxFonk
-from uartMemory import setDataResponse,readDataResponse 
+from uartDataManager import setDataResponse,readDataResponse 
 import asyncio
 
 # Command and message types

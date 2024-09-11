@@ -1,7 +1,7 @@
 import asyncio
 from uartProtocol import UartProtokol, messageTypeData, cmdTypeData
 from uartHal import RxTxFonk, sendframe
-from uartMemory import  setdataval
+from uartDataManager import  setdataval
 
 class SetDataValue:
     # Sabit değerler  
