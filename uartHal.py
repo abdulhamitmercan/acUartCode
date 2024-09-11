@@ -2,8 +2,6 @@ import serial
 import asyncio
 from dataclasses import dataclass
 
-
-#
 @dataclass
 class UARTFrame:
     header: int = 0x62  # Sabit değer
