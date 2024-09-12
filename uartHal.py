@@ -114,11 +114,11 @@ class RxTxFonk:
                 data_left = ser.in_waiting
                 received_data += ser.read(data_left)
                 recieve_message_err_status = self.rawdata_to_uartformat_recieve_message(received_data)
-                 
+                """  
                 if recieve_message_err_status == 1:
                     print("Alınan veri:")
                     for index, byte in enumerate(received_data):
-                        print(f"Bayt {index}: {byte:02X}")
+                        print(f"Bayt {index}: {byte:02X}")"""
                 
             await asyncio.sleep(0.1)
         
