@@ -116,7 +116,7 @@ class UartHandler:
         await asyncio.sleep(0.3)
                
         self.sendSetBuzzer()
-        await asyncio.sleep(0.3)""""
+        await asyncio.sleep(0.3)"""
         
         ''' self.sendClearChargeSession()
         await asyncio.sleep(0.3)'''
