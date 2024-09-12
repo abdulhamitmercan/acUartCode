@@ -111,12 +111,12 @@ class UartHandler:
         self.txHAL.send_message()
 
     async def handleSET_DATA(self):    
-        
+        """"
         self.sendMaxPower()  
         await asyncio.sleep(0.3)
                
         self.sendSetBuzzer()
-        await asyncio.sleep(0.3)
+        await asyncio.sleep(0.3)""""
         
         ''' self.sendClearChargeSession()
         await asyncio.sleep(0.3)'''
