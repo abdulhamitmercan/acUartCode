@@ -1,4 +1,3 @@
-from uartProtocolHandler import uart_handler,myUart,rxtx_fonk   
 class setDataval:
     
     def __init__(self):
@@ -137,5 +136,3 @@ readDataResponse = ReadDataResponse()
 setdataval = setDataval()
 setDataResponse = SetDataResponse()
 setdataval.set_start_charge_val(1)
-
-
