@@ -167,19 +167,11 @@ class UartHandler:
             await self.handleSET_DATA()
 
 
+rxtx_fonk = RxTxFonk()
+myUart = UartProtokol(rxtx_fonk)
+uart_handler = UartHandler(rxtx_fonk  )
+         
 
-             
-async def main():
-    rxtx_fonk = RxTxFonk()
-    myUart = UartProtokol(rxtx_fonk)
-    uart_handler = UartHandler(rxtx_fonk  )
-    await asyncio.gather(
-        rxtx_fonk.receive_message(),
-        myUart.reciveHandleUartFrame(),
-        uart_handler.sendHandleUartFrame()
-    )
-
-asyncio.run(main())
 
 
 
