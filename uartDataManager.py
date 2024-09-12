@@ -1,5 +1,4 @@
 from uartProtocolHandler import uart_handler,myUart,rxtx_fonk   
-import asyncio
 class setDataval:
     
     def __init__(self):
@@ -140,13 +139,3 @@ setDataResponse = SetDataResponse()
 setdataval.set_start_charge_val(1)
 
 
-async def main():
-
-    
-    await asyncio.gather(
-        rxtx_fonk.receive_message(),
-        myUart.reciveHandleUartFrame(),
-        uart_handler.sendHandleUartFrame()
-    )
-
-asyncio.run(main())
