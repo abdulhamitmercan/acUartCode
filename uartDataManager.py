@@ -142,6 +142,6 @@ class ReadDataResponse:
 readDataResponse = ReadDataResponse()
 setdataval = setDataval()
 setDataResponse = SetDataResponse()
-redis.hset("Uart","start_charge_val",1)
+app.hset("Uart","start_charge_val",1)
 
 setdataval.set_start_charge_val(1)
