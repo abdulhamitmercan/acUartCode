@@ -122,10 +122,11 @@ class UartHandler:
         await asyncio.sleep(0.3)'''
          
         if((setdataval.get_start_charge_val()== SetDataValue().START_CHARGE) ):
-            
+            print("---------------------------------startcharge-------------------------------------------------------")
             self.sendStartCharging()    
             await asyncio.sleep(0.3)    
         else:
+            print("---------------------------------stopcharge-------------------------------------------------------")
             self.sendStopCharging()
             await asyncio.sleep(0.3)
         
