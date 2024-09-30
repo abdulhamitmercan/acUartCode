@@ -3,7 +3,7 @@ import redis
 import asyncio
 from redisInterface import RedisInterface
 
-app = redis(url="localhost", port="6379", db=0)
+app = redis.Redis(host='localhost', port=6379, db=0)
  
 class setDataval:
     
