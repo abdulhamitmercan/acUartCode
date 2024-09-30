@@ -1,7 +1,9 @@
 import redis.asyncio as redis  
-import redisInterface as RedisInterface
+import asyncio
+from redisInterface import RedisInterface
 
-app = RedisInterface.RedisInterface(url="localhost", port="6379", db=0)  
+app = RedisInterface(url="localhost", port="6379", db=0)
+ 
 class setDataval:
     
     def __init__(self):
@@ -139,5 +141,6 @@ class ReadDataResponse:
 readDataResponse = ReadDataResponse()
 setdataval = setDataval()
 setDataResponse = SetDataResponse()
-app.set_kfv("Uart","start_charge_val",1)
+t1= asyncio.create_task(app.set_kfv("Uart","start_charge_val",1))
+asyncio.run(t1)
 setdataval.set_start_charge_val(1)
