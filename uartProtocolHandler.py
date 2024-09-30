@@ -110,7 +110,8 @@ class UartHandler:
         sendframe.set_dataL(setdataval.get_baz_val())    
         self.txHAL.send_message()
 
-    async def handleSET_DATA(self):    
+    async def handleSET_DATA(self):  
+        setdataval.set_start_charge_val(1)  
         """"
         self.sendMaxPower()  
         await asyncio.sleep(0.3)
