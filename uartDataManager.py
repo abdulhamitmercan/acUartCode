@@ -1,7 +1,7 @@
 import redis.asyncio as redis  
 import redisInterface as RedisInterface
 
-app= RedisInterface(url="localhost", port="6379", db=0)  
+app = RedisInterface.RedisInterface(url="localhost", port="6379", db=0)  
 class setDataval:
     
     def __init__(self):
