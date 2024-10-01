@@ -58,10 +58,10 @@ ser = serial.Serial("/dev/ttyS0", 9600)
 import asyncio
 
 class RxTxFonk:
-    def __init__(self):
+    def __init__(self,logger=None):
         self.recieve_message_err_status = None
         self.rxSuccess = 0
-
+        self.logger = logger
     def uartformat_to_rawdata_send_message(self): 
         byte_list = [
             sendframe.header,
@@ -77,6 +77,7 @@ class RxTxFonk:
 
     def rawdata_to_uartformat_recieve_message(self, received_message):
         if len(received_message) != 8:
+            self.logger.status("message status ", filename="uartHal.py", category="message  stuation", status=f"Geçersiz mesaj uzunluğu:, {len(received_message)}")
             print("Geçersiz mesaj uzunluğu:", len(received_message))
             return None
         else:
@@ -95,6 +96,7 @@ class RxTxFonk:
                 
                 return self.recieve_message_err_status
             else:
+                self.logger.status("mesage status", filename="uatHal.py", category="message stuation", status="Hatalı mesaj alındı")
                 print("Hatalı mesaj alındı")
                 self.recieve_message_err_status = 1
                 return self.recieve_message_err_status
@@ -114,11 +116,13 @@ class RxTxFonk:
                 data_left = ser.in_waiting
                 received_data += ser.read(data_left)
                 recieve_message_err_status = self.rawdata_to_uartformat_recieve_message(received_data)
-                """  
+                 
                 if recieve_message_err_status == 1:
+                    self.logger.status("mesage status", filename="uatHal.py", category="message stuation", status="alınan veri")
                     print("Alınan veri:")
                     for index, byte in enumerate(received_data):
-                        print(f"Bayt {index}: {byte:02X}")"""
+                        self.logger.status("message status ", filename="uartHal.py", category="message  stuation", status=f"Bayt {index}: {byte:02X}")
+                        print(f"Bayt {index}: {byte:02X}")
                 
             await asyncio.sleep(0.1)
         

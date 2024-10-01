@@ -35,25 +35,30 @@ cmdTypeData = CmdTypeData()
 
 
 class UartProtokol:
-    def __init__(self, UART_HAL):
+    def __init__(self, UART_HAL,logger=None):
         self.recieve_message_err_status = 0
         self.UART_HAL = UART_HAL
+        self.logger = logger
         
     def handleSET_DATA_RES(self):
+        self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status="---------------------------------set data response-------------------------------------------------------")
         print("set data response")
         if recieveframe.get_msg_type() == messageTypeData.MODE:
             pass
         elif recieveframe.get_msg_type() == messageTypeData.RUN_CTRL:
             setDataResponse.setRunControl(recieveframe.get_dataL())
+            self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status=f"runcntrl: {recieveframe.get_dataL()}")
             print(f"runcntrl: {recieveframe.get_dataL()}")
 
             
         elif recieveframe.get_msg_type() == messageTypeData.CLEAR_CHARGE:
             setDataResponse.setClearChargeSession(recieveframe.get_dataL())
+            self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status=f"clear charge:{recieveframe.get_dataL()}")
             print(f"clear charge:{recieveframe.get_dataL()}")
             
         elif recieveframe.get_msg_type() == messageTypeData.END_TRANSACTION_SEND:
             setDataResponse.setEndTransaction(recieveframe.get_dataL())
+            self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status=f"end transaction send:{recieveframe.get_dataL()}")
             print(f"end transaction send:{recieveframe.get_dataL()}")
 
     def handleREAD_DATA_RES(self):
@@ -62,46 +67,56 @@ class UartProtokol:
             pass
         elif recieveframe.get_msg_type() == messageTypeData.RUN_CTRL:
             readDataResponse.setChargingStartStop(recieveframe.get_dataL())
+            self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status=f"charging start stop:{recieveframe.get_dataL()}")
             print(f"charging start stop:{recieveframe.get_dataL()}")
             
         elif recieveframe.get_msg_type() == messageTypeData.ETOTAL_CHARGING_COMPLETE:
             readDataResponse.setEnergyTotalComplate(recieveframe.get_dataL())
+            self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status=f"read energy:{recieveframe.get_dataL()}")
             print(f"read energy:{recieveframe.get_dataL()}") 
             
         elif recieveframe.get_msg_type() == messageTypeData.CHARGING_TIME:
             readDataResponse.setTimeSeconds(recieveframe.get_dataL())
             readDataResponse.setTimeMinutes(recieveframe.get_dataH())
+            self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status=f"read timesaniye{recieveframe.get_dataL()}")
+            self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status=f"read timedakika{recieveframe.get_dataH()}")
             print(f"read timesaniye{recieveframe.get_dataL()}")
             print(f"read timedakika{recieveframe.get_dataH()}")
         
         elif recieveframe.get_msg_type() == messageTypeData.CHARGING_TIME_HOURS :
             readDataResponse.setTimeHours(recieveframe.get_dataL())
+            self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status=f"read device time hours {recieveframe.get_dataL()}")
             print("read device time hours ")  
             
         elif recieveframe.get_msg_type() == messageTypeData.PRMS:
             readDataResponse.setRmsPowerValue(recieveframe.get_dataL())
+            self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status=f"read rms value of power:{recieveframe.get_dataL()}")
             print(f"read rms value of power:{recieveframe.get_dataL()}")
             
         elif recieveframe.get_msg_type() == messageTypeData.ERR_STATUS:
             readDataResponse.setErrorType(recieveframe.get_dataL())
+            self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status=f"type of error:{recieveframe.get_dataL()}")
             print(f"type of error:{recieveframe.get_dataL()}")
             
         elif recieveframe.get_msg_type() == messageTypeData.CHARGE_FINISHED:
             readDataResponse.setChargeFinished(recieveframe.get_dataL())
+            self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status=f"charge finish:{recieveframe.get_dataL()}")
             print(f"charge finish:{recieveframe.get_dataL()}")
             
         elif recieveframe.get_msg_type() == messageTypeData.CHARGING_STATUS:
-            print(f"charge status:{recieveframe.get_dataL()}")
             readDataResponse.setChargingStatus(recieveframe.get_dataL())
-            
+            self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status=f"charge status:{recieveframe.get_dataL()}")
+            print(f"charge status:{recieveframe.get_dataL()}")       
             
             
         elif recieveframe.get_msg_type() == messageTypeData.CONNECTOR_STATUS:
             readDataResponse.setConnectorStatus(recieveframe.get_dataL())
+            self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status=f"conn status:{recieveframe.get_dataL()}")
             print(f"conn status:{recieveframe.get_dataL()}")
             
         elif recieveframe.get_msg_type() == messageTypeData.DEVICE_ID :
             readDataResponse.setDeviceId(recieveframe.get_dataL)
+            self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status=f"read device id{recieveframe.get_dataL()}")
             print("read device id")
  
 

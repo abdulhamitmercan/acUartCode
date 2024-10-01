@@ -3,7 +3,7 @@ from uartProtocol import UartProtokol, messageTypeData, cmdTypeData
 from uartHal import RxTxFonk, sendframe
 from uartDataManager import  setdataval
 from uartRedisDataManager import SetDatavalManager, SetDataResponseManager, ReadDataResponseManager
-
+from debug_logger import DebugLogger
 class SetDataValue:
     # Sabit değerler  
     STOP_CHARGE = 2
@@ -16,9 +16,9 @@ class SetDataValue:
 
 class UartHandler:
 
-    def __init__(self, txHAL):
+    def __init__(self, txHAL,logger=None):
         self.txHAL = txHAL
-    
+        self.logger = logger
     def sendStartCharging(self):
         sendframe.set_cmd_type(cmdTypeData.SET_DATA)
         sendframe.set_msg_type(messageTypeData.RUN_CTRL)
@@ -124,10 +124,13 @@ class UartHandler:
         await asyncio.sleep(0.2)'''
          
         if((setdataval.get_start_charge_val()== SetDataValue().START_CHARGE) ):
+            
+            self.logger.status("charge", filename="uartProtocolHandler.py", category="charge stuation", status="---------------------------------startcharge-------------------------------------------------------")
             print("---------------------------------startcharge-------------------------------------------------------")
             self.sendStartCharging()    
             await asyncio.sleep(0.2)    
         else:
+            self.logger.status("charge", filename="uartProtocolHandler.py", category="charge stuation", status="---------------------------------stopcharge-------------------------------------------------------")
             print("---------------------------------stopcharge-------------------------------------------------------")
             self.sendStopCharging()
             await asyncio.sleep(0.2)
@@ -172,10 +175,11 @@ class UartHandler:
 
              
 async def main():
-    rxtx_fonk = RxTxFonk()
-    myUart = UartProtokol(rxtx_fonk)
-    uart_handler = UartHandler(rxtx_fonk  )
-    
+    rxtx_fonk = RxTxFonk(logger)
+    myUart = UartProtokol(rxtx_fonk,logger)
+    uart_handler = UartHandler(rxtx_fonk,logger )
+    logger = DebugLogger(level=DebugLogger.LEVEL_INFO, format_type=DebugLogger.FORMAT_FILE_LINE, log_file_path='uart.log')
+
     setdataval_manager = SetDatavalManager()
     setdataresponse_manager = SetDataResponseManager()
     readdataresponse_manager = ReadDataResponseManager()
