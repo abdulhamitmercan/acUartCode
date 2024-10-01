@@ -1,44 +1,38 @@
-#import redis.asyncio as redis  
-import redis
-import asyncio
-from redisInterface import RedisInterface
-
-app = redis.Redis(host='localhost', port=6379, db=0)
- 
 class setDataval:
     
     def __init__(self):
-        self._max_charge_val = 0
-        self._baz_val = 0
-        self._transaction_val = 0
-        self._start_charge_val = 0
+        self._maxChargeVal = 0
+        self._bazVal = 0
+        self._transactionVal = 0
+        self._startChargeVal = 0
         
     # max_charge_val 
     def set_max_charge_val(self, value):
-        self._max_charge_val = value
+        
+        self._maxChargeVal =  value
 
     def get_max_charge_val(self):
-        return self._max_charge_val
+        return self._maxChargeVal
 
     # baz_val   
     def set_baz_val(self, value):
-        self._baz_val = value
+        self._bazVal = value
 
     def get_baz_val(self):
-        return self._baz_val
+        return self._bazVal
 
     #transaction val
     def set_transaction_val(self, value):
-        self._transaction_val = value
+        self._transactionVal = value
 
     def get_transaction_val(self):
-        return self._transaction_val   
+        return self._transactionVal   
 
     def set_start_charge_val(self, value):
-        self._start_charge_val = value
+        self._startChargeVal = value
 
     def get_start_charge_val(self):
-        return self._start_charge_val   
+        return self._startChargeVal   
        
     
 class SetDataResponse:
@@ -142,7 +136,11 @@ class ReadDataResponse:
 readDataResponse = ReadDataResponse()
 setdataval = setDataval()
 setDataResponse = SetDataResponse()
-setdataval.set_start_charge_val(1)  
-app.hset("Uart","start_charge_val",1)
+#setdataval.set_start_charge_val(1)  
+
+
+
+
+
 
 

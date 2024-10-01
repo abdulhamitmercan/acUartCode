@@ -1,74 +1,72 @@
 import redis.asyncio as redis
+import asyncio
+from uartDataManager import readDataResponse, setdataval, setDataResponse
 
-class RedisInterface:  
-    def __init__(self, url, port, db):  
-        self.url = url  
-        self.port = port  
-        self.db = db  
-        self.rac = None  
-    # redis operations and functions
-    async def initialize_redis(self):  
-        try:  
-            self.rac = await redis.from_url(f"redis://{self.url}:{self.port}/{self.db}", decode_responses=True)   
-        except Exception as e:  
-            #logging.error(f"Redis connection error: {e}")  
-            self.rac = None  # Bağlantı hatası durumunda rac'yi None olarak ayarlıyoruz  
+class SetDatavalManager:
+    def __init__(self):
+        self.redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
-    async def close_redis(self):  
-        if self.rac:  
-            try:  
-                await self.rac.aclose()  
-            except Exception as e:  
-                print()#logging.error(f"Error closing Redis connection: {e}")  
+    async def run(self):
+        while True:
+            # setdataval getting redis and write data menegement
+            setdataval.set_max_charge_val(await self.redis_client.hget("Uart", "maxChargeVal"))
+            setdataval.set_baz_val(await self.redis_client.hget("Uart", "bazVal"))
+            setdataval.set_transaction_val(await self.redis_client.hget("Uart", "transactionVal"))
+            setdataval.set_start_charge_val(await self.redis_client.hget("Uart", "startChargeVal"))
 
-    async def set_kfv(self, hash_key, field, value):  
-        if self.rac:  
-            try:  
-                await self.rac.hset(hash_key, field, value)  
-            except Exception as e:  
-                print()#logging.error(f"Error setting key, field value in Redis: {e}")  
+            
+            await asyncio.sleep(1)
 
-    async def get_kf(self, hash_key, field):  
-        if self.rac:  
-            try:  
-                return await self.rac.hget(hash_key, field)  
-            except Exception as e:  
-                #logging.error(f"Error getting value from Redis: {e}")  
-                return None  
 
-    async def get_all(self, hash_key):  
-        if self.rac:  
-            try:  
-                return await self.rac.hgetall(hash_key)  
-            except Exception as e:  
-                #logging.error(f"Error getting all values from Redis: {e}")  
-                return None  
+class SetDataResponseManager:
+    def __init__(self):
+        self.redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
-    async def set(self, hash_key, value):  
-        if self.rac:  
-            try:  
-                await self.rac.set(hash_key, value)  
-            except Exception as e:  
-                print()#logging.error(f"Error setting value in Redis: {e}")  
+    async def run(self):
+        while True:
+            #setdataresponse getting data menegement and write redis
+            await self.redis_client.hset("Uart", "runControl", setDataResponse.getRunControl())
+            await self.redis_client.hset("Uart", "clearChargeSession", setDataResponse.getClearChargeSession())
+            await self.redis_client.hset("Uart", "endTransaction", setDataResponse.getEndTransaction())
 
-    async def get(self, hash_key):  
-        if self.rac:  
-            try:  
-                return await self.rac.get(hash_key)  
-            except Exception as e:  
-                #logging.error(f"Error getting value from Redis: {e}")  
-                return None  
+            
+            await asyncio.sleep(1)
 
-    async def delete(self, hash_key):  
-        if self.rac:  
-            try:  
-                await self.rac.delete(hash_key)  
-            except Exception as e:  
-                print()#logging.error(f"Error deleting key from Redis: {e}")  
 
-    async def delete_kf(self, hash_key, field):  
-        if self.rac:  
-            try:  
-                await self.rac.hdel(hash_key, field)  
-            except Exception as e:  
-                print()#logging.error(f"Error deleting key, field from Redis: {e}")  
+class ReadDataResponseManager:
+    def __init__(self):
+        self.redis_client = redis.Redis(host='localhost', port=6379, db=0)
+
+    async def run(self):
+        while True:
+            #readdataresponse getting data menegement and write redis
+            await self.redis_client.hset("Uart", "chargingStartStop", readDataResponse.getChargingStartStop())
+            await self.redis_client.hset("Uart", "energyTotalComplate", readDataResponse.getEnergyTotalComplate())
+            await self.redis_client.hset("Uart", "timeSeconds", readDataResponse.getTimeSeconds())
+            await self.redis_client.hset("Uart", "timeMinutes", readDataResponse.getTimeMinutes())
+            await self.redis_client.hset("Uart", "timeHours", readDataResponse.getTimeHours())
+            await self.redis_client.hset("Uart", "rmsPowerValue", readDataResponse.getRmsPowerValue())
+            await self.redis_client.hset("Uart", "errorType", readDataResponse.getErrorType())
+            await self.redis_client.hset("Uart", "chargeComplete", readDataResponse.getChargeComplete())
+            await self.redis_client.hset("Uart", "chargingStatus", readDataResponse.getChargingStatus())
+            await self.redis_client.hset("Uart", "connectorStatus", readDataResponse.getConnectorStatus())
+            await self.redis_client.hset("Uart", "deviceId", readDataResponse.getDeviceId())
+
+            
+            await asyncio.sleep(1)
+
+
+async def main():
+    
+    setdataval_manager = SetDatavalManager()
+    setdataresponse_manager = SetDataResponseManager()
+    readdataresponse_manager = ReadDataResponseManager()
+
+    
+    await asyncio.gather(setdataval_manager.run(),setdataresponse_manager.run(),readdataresponse_manager.run())
+
+# Asenkron döngüyü başlat
+if __name__ == '__main__':
+    asyncio.run(main())
+
+
