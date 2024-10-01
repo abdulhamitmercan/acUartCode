@@ -65,7 +65,7 @@ async def main():
     
     await asyncio.gather(setdataval_manager.run(),setdataresponse_manager.run(),readdataresponse_manager.run())
 
-# Asenkron döngüyü başlat
+
 if __name__ == '__main__':
     asyncio.run(main())
 
