@@ -6,16 +6,17 @@ class SetDatavalManager:
     def __init__(self):
         self.redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
+
     async def run(self):
         while True:
             # setdataval getting redis and write data menegement
-            setdataval.set_max_charge_val(await self.redis_client.hget("Uart", "maxChargeVal"))
-            setdataval.set_baz_val(await self.redis_client.hget("Uart", "bazVal"))
-            setdataval.set_transaction_val(await self.redis_client.hget("Uart", "transactionVal"))
-            setdataval.set_start_charge_val(await self.redis_client.hget("Uart", "startChargeVal"))
+            setdataval.set_max_charge_val((int)(await self.redis_client.hget("Uart", "maxChargeVal")))
+            setdataval.set_baz_val((int)(await self.redis_client.hget("Uart", "bazVal")))
+            setdataval.set_transaction_val((int)(await self.redis_client.hget("Uart", "transactionVal")))
+            setdataval.set_start_charge_val((int)(await self.redis_client.hget("Uart", "startChargeVal")))
 
             
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.1)
 
 
 class SetDataResponseManager:
@@ -30,7 +31,7 @@ class SetDataResponseManager:
             await self.redis_client.hset("Uart", "endTransaction", setDataResponse.getEndTransaction())
 
             
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.1)
 
 
 class ReadDataResponseManager:
@@ -51,11 +52,13 @@ class ReadDataResponseManager:
             await self.redis_client.hset("Uart", "chargingStatus", readDataResponse.getChargingStatus())
             await self.redis_client.hset("Uart", "connectorStatus", readDataResponse.getConnectorStatus())
             await self.redis_client.hset("Uart", "deviceId", readDataResponse.getDeviceId())
+            await self.redis_client.hset("Uart", "chargeFinished", readDataResponse.getChargeFinished())
 
-            
-            await asyncio.sleep(1)
+            print("redis read data response set")
+            await asyncio.sleep(0.1)
 
 
+"""
 async def main():
     
     setdataval_manager = SetDatavalManager()
@@ -69,4 +72,4 @@ async def main():
 if __name__ == '__main__':
     asyncio.run(main())
 
-
+"""
