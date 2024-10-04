@@ -51,7 +51,7 @@ class ReadDataResponseManager:
             await self.redis_client.hset("Uart", "chargingStatus", readDataResponse.getChargingStatus())
             await self.redis_client.hset("Uart", "connectorStatus", readDataResponse.getConnectorStatus())
             #await self.redis_client.hset("Uart", "deviceId", readDataResponse.getDeviceId())
-            print(readDataResponse.getDeviceId())
+            print(f"asdfghnöl{readDataResponse.getDeviceId()}")
             await self.redis_client.hset("Uart", "chargeFinished", readDataResponse.getEVChargeTermination())
 
             # print("redis read data response set")
