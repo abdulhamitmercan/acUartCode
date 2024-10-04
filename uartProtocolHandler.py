@@ -126,7 +126,7 @@ class UartHandler:
             await asyncio.sleep(0.1)
         
         if(setdataval.getClearSessionval() == SetDataValue().CLEAR_SESSION_ENABLE):
-            self.sendClearSessionEnable
+            self.sendClearSessionEnable()
             await asyncio.sleep(0.1)
         else:
             self.sendClearSessionDisable()
@@ -138,6 +138,8 @@ class UartHandler:
         self.sendReadDeviceId()
         await asyncio.sleep(0.1)
         self.sendReadEnergy()
+        await asyncio.sleep(0.1)
+        self.sendReadPower()
         await asyncio.sleep(0.1)
         self.sendReadChargingTimeMinSec()
         await asyncio.sleep(0.1)
