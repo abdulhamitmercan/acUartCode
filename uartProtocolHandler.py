@@ -107,10 +107,10 @@ class UartHandler:
         
         
         self.sendMaxPower()  
-        await asyncio.sleep(0.2) 
+        await asyncio.sleep(0.1) 
                
         self.sendSetBuzzer()
-        await asyncio.sleep(0.2)
+        await asyncio.sleep(0.1)
    
          
         if((setdataval.getStartChargeVal()== SetDataValue().START_CHARGE) ):
@@ -118,42 +118,42 @@ class UartHandler:
             self.logger.info("", filename="uartProtocolHandler.py", category="charge stuation", status="---------startcharge--------------")
             #print("---------------------------------startcharge-------------------------------------------------------")
             self.sendStartCharging()    
-            await asyncio.sleep(0.2)    
+            await asyncio.sleep(0.1)    
         else:
             self.logger.info("", filename="uartProtocolHandler.py", category="charge stuation", status="----------stopcharge-------------")
             #print("---------------------------------stopcharge-------------------------------------------------------")
             self.sendStopCharging()
-            await asyncio.sleep(0.2)
+            await asyncio.sleep(0.1)
         
         if(setdataval.getClearSessionval() == SetDataValue().CLEAR_SESSION_ENABLE):
             self.sendClearSessionEnable
-            await asyncio.sleep(0.2)
+            await asyncio.sleep(0.1)
         else:
             self.sendClearSessionDisable()
-            await asyncio.sleep(0.2)
+            await asyncio.sleep(0.1)
 
     async def handleREAD_DATA(self):
         
 
         self.sendReadDeviceId()
-        await asyncio.sleep(0.2)
+        await asyncio.sleep(0.1)
         self.sendReadEnergy()
-        await asyncio.sleep(0.2)
+        await asyncio.sleep(0.1)
         self.sendReadChargingTimeMinSec()
-        await asyncio.sleep(0.2)
+        await asyncio.sleep(0.1)
         self.sendReadChargingTimeHour()
-        await asyncio.sleep(0.2)
+        await asyncio.sleep(0.1)
         self.sendMaxPower()
-        await asyncio.sleep(0.2)
+        await asyncio.sleep(0.1)
         self.sendReadErr()
-        await asyncio.sleep(0.2)
+        await asyncio.sleep(0.1)
         self.sendReadEVChargeTermination()
-        await asyncio.sleep(0.2)
+        await asyncio.sleep(0.1)
         self.sendReadConnectorStatus()
-        await asyncio.sleep(0.2)
+        await asyncio.sleep(0.1)
         
         self.sendReadChargingStatus()
-        await asyncio.sleep(0.2)
+        await asyncio.sleep(0.1)
 
     async def sendHandleUartFrame(self):
         while True:

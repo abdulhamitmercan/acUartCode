@@ -112,7 +112,7 @@ class RxTxFonk:
         while True:
             if ser.in_waiting >= 8:
                 received_data = ser.read()
-                await asyncio.sleep(0.03)
+                await asyncio.sleep(0.005)
                 data_left = ser.in_waiting
                 received_data += ser.read(data_left)
                 recieve_message_err_status = self.rawdata_to_uartformat_recieve_message(received_data)
@@ -124,7 +124,7 @@ class RxTxFonk:
                         self.logger.error("", filename="uartHal.py", category="message  situation", status=f"Bayt {index}: {byte:02X}")
                         #print(f"Bayt {index}: {byte:02X}")
                 
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.01)
         
 
             
