@@ -106,7 +106,7 @@ class UartProtokol:
             
         elif recieveframe.get_msg_type() == messageTypeData.EV_CHARGE_TERMINATION:
             readDataResponse.setEVChargeTermination(recieveframe.get_dataL())
-            self.logger.info("", filename="uartProtocol.py", category="charge  stuation", status=f"charge finish:{recieveframe.get_dataL()}")
+            self.logger.info("", filename="uartProtocol.py", category="charge  stuation", status=f"EV_CHARGE_TERMINATION:{recieveframe.get_dataL()}")
             #print(f"charge finish:{recieveframe.get_dataL()}")
             
         elif recieveframe.get_msg_type() == messageTypeData.CHARGING_STATUS:
