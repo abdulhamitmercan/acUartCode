@@ -77,8 +77,8 @@ class RxTxFonk:
 
     def rawdata_to_uartformat_recieve_message(self, received_message):
         if len(received_message) != 8:
-            self.logger.info("message status ", filename="uartHal.py", category="message  stuation", status=f"Geçersiz mesaj uzunluğu:, {len(received_message)}")
-            print("Geçersiz mesaj uzunluğu:", len(received_message))
+            self.logger.error("", filename="uartHal.py", category="message  stuation", status=f"Geçersiz mesaj uzunluğu:, {len(received_message)}")
+            #print("Geçersiz mesaj uzunluğu:", len(received_message))
             return None
         else:
             byte_list = [0] * 8
@@ -96,8 +96,8 @@ class RxTxFonk:
                 
                 return self.recieve_message_err_status
             else:
-                self.logger.info("mesage status", filename="uatHal.py", category="message stuation", status="Hatalı mesaj alındı")
-                print("Hatalı mesaj alındı")
+                self.logger.error("", filename="uatHal.py", category="message stuation", status="Hatalı mesaj alındı")
+                #print("Hatalı mesaj alındı")
                 self.recieve_message_err_status = 1
                 return self.recieve_message_err_status
 
@@ -118,11 +118,11 @@ class RxTxFonk:
                 recieve_message_err_status = self.rawdata_to_uartformat_recieve_message(received_data)
                  
                 if recieve_message_err_status == 1:
-                    self.logger.info("mesage status", filename="uatHal.py", category="message stuation", status="alınan veri")
-                    print("Alınan veri:")
+                    self.logger.error("", filename="uatHal.py", category="message situation", status=" alınan veri")
+                    #print("Alınan veri:")
                     for index, byte in enumerate(received_data):
-                        self.logger.info("message status ", filename="uartHal.py", category="message  stuation", status=f"Bayt {index}: {byte:02X}")
-                        print(f"Bayt {index}: {byte:02X}")
+                        self.logger.error("", filename="uartHal.py", category="message  situation", status=f"Bayt {index}: {byte:02X}")
+                        #print(f"Bayt {index}: {byte:02X}")
                 
             await asyncio.sleep(0.1)
         

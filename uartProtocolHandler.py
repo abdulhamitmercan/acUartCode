@@ -115,13 +115,13 @@ class UartHandler:
          
         if((setdataval.getStartChargeVal()== SetDataValue().START_CHARGE) ):
             
-            self.logger.info("charge", filename="uartProtocolHandler.py", category="charge stuation", status="---------startcharge---------------------")
-            print("---------------------------------startcharge-------------------------------------------------------")
+            self.logger.info("", filename="uartProtocolHandler.py", category="charge stuation", status="---------startcharge--------------")
+            #print("---------------------------------startcharge-------------------------------------------------------")
             self.sendStartCharging()    
             await asyncio.sleep(0.2)    
         else:
-            self.logger.info("charge", filename="uartProtocolHandler.py", category="charge stuation", status="----------stopcharge---------------------")
-            print("---------------------------------stopcharge-------------------------------------------------------")
+            self.logger.info("", filename="uartProtocolHandler.py", category="charge stuation", status="----------stopcharge-------------")
+            #print("---------------------------------stopcharge-------------------------------------------------------")
             self.sendStopCharging()
             await asyncio.sleep(0.2)
         
