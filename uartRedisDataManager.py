@@ -53,7 +53,7 @@ class ReadDataResponseManager:
             # await self.redis_client.hset("Uart", "deviceId", readDataResponse.getDeviceId())
             await self.redis_client.hset("Uart", "chargeFinished", readDataResponse.getEVChargeTermination())
 
-            print("redis read data response set")
+            # print("redis read data response set")
             await asyncio.sleep(0.1)
 
 
