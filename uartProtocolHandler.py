@@ -169,18 +169,18 @@ async def main():
     uart_handler = UartHandler(rxtx_fonk)  #,logger )
     
 
-    # setdataval_manager = SetDatavalManager()
-    # setdataresponse_manager = SetDataResponseManager()
-    # readdataresponse_manager = ReadDataResponseManager()
+    setdataval_manager = SetDatavalManager()
+    setdataresponse_manager = SetDataResponseManager()
+    readdataresponse_manager = ReadDataResponseManager()
 
     await asyncio.gather(
         rxtx_fonk.receive_message(),
         myUart.reciveHandleUartFrame(),
         uart_handler.sendHandleUartFrame(),
 
-        # setdataval_manager.run(),
-        # setdataresponse_manager.run(),
-        # readdataresponse_manager.run()
+        setdataval_manager.run(),
+        setdataresponse_manager.run(),
+        readdataresponse_manager.run()
     )
 
 asyncio.run(main())
