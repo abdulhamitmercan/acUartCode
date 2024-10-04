@@ -26,9 +26,9 @@ class SetDataResponseManager:
     async def run(self):
         while True:
             #setdataresponse getting data menegement and write redis
-            await self.redis_client.hset("Uart", "runControl", setDataResponse.getRunControl())
-            await self.redis_client.hset("Uart", "buzzer", setDataResponse.getBuzzer())
-            await self.redis_client.hset("Uart", "clearSession", setDataResponse.getClearSession())
+            await self.redis_client.hset("Uart", "runControlValueResponse", setDataResponse.getRunControl())
+            await self.redis_client.hset("Uart", "buzzerValueResponse", setDataResponse.getBuzzer())
+            await self.redis_client.hset("Uart", "clearSessioValueResponse", setDataResponse.getClearSession())
             await self.redis_client.hset("Uart", "maxChargeValueResponse", setDataResponse.getMaxChargeValueResponse())
             
             await asyncio.sleep(0.1)
