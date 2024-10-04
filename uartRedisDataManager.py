@@ -12,7 +12,7 @@ class SetDatavalManager:
             #setdataval getting redis and write data menegement
             setdataval.setMaxChargeVal((int)(await self.redis_client.hget("Uart", "maxChargeVal")))
             setdataval.setBazVal((int)(await self.redis_client.hget("Uart", "bazVal")))
-            setdataval.setClearSessionval((int)(await self.redis_client.hget("Uart", "transactionVal")))
+            setdataval.setClearSessionval((int)(await self.redis_client.hget("Uart", "ClearSessionval")))
             setdataval.setStartChargeVal((int)(await self.redis_client.hget("Uart", "startChargeVal")))
 
             
