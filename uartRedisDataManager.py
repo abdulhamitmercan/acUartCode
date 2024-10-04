@@ -46,7 +46,7 @@ class ReadDataResponseManager:
             await self.redis_client.hset("Uart", "timeSeconds", readDataResponse.getTimeSeconds())
             await self.redis_client.hset("Uart", "timeMinutes", readDataResponse.getTimeMinutes())
             await self.redis_client.hset("Uart", "timeHours", readDataResponse.getTimeHours())
-            await self.redis_client.hset("Uart", "Power", readDataResponse.getPower())
+            await self.redis_client.hset("Uart", "power", readDataResponse.getPower())
             await self.redis_client.hset("Uart", "errorType", readDataResponse.getErrorType())
             await self.redis_client.hset("Uart", "chargingStatus", readDataResponse.getChargingStatus())
             await self.redis_client.hset("Uart", "connectorStatus", readDataResponse.getConnectorStatus())
