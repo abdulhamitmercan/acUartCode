@@ -10,10 +10,10 @@ class SetDatavalManager:
     async def run(self):
         while True:
             #setdataval getting redis and write data menegement
-            setdataval.setMaxChargeVal((int)(await self.redis_client.hget("Uart", "maxChargeVal")))
-            setdataval.setBazVal((int)(await self.redis_client.hget("Uart", "bazVal")))
-            setdataval.setClearSessionval((int)(await self.redis_client.hget("Uart", "ClearSessionval")))
-            setdataval.setStartChargeVal((int)(await self.redis_client.hget("Uart", "startChargeVal")))
+            # setdataval.setMaxChargeVal((int)(await self.redis_client.hget("Uart", "maxChargeVal")))
+            # setdataval.setBazVal((int)(await self.redis_client.hget("Uart", "bazVal")))
+            # setdataval.setClearSessionval((int)(await self.redis_client.hget("Uart", "ClearSessionval")))
+            # setdataval.setStartChargeVal((int)(await self.redis_client.hget("Uart", "startChargeVal")))
 
             
             await asyncio.sleep(0.1)
@@ -26,10 +26,10 @@ class SetDataResponseManager:
     async def run(self):
         while True:
             #setdataresponse getting data menegement and write redis
-            # await self.redis_client.hset("Uart", "runControlValueResponse", setDataResponse.getRunControlValueResponse())
-            # await self.redis_client.hset("Uart", "buzzerValueResponse", setDataResponse.getBuzzerValueResponse())
-            # await self.redis_client.hset("Uart", "clearSessionValueResponse", setDataResponse.getClearSessionValueResponse())
-            # await self.redis_client.hset("Uart", "maxChargeValueResponse", setDataResponse.getMaxChargeValueResponse())
+            await self.redis_client.hset("Uart", "runControlValueResponse", setDataResponse.getRunControlValueResponse())
+            await self.redis_client.hset("Uart", "buzzerValueResponse", setDataResponse.getBuzzerValueResponse())
+            await self.redis_client.hset("Uart", "clearSessionValueResponse", setDataResponse.getClearSessionValueResponse())
+            await self.redis_client.hset("Uart", "maxChargeValueResponse", setDataResponse.getMaxChargeValueResponse())
             
             await asyncio.sleep(0.1)
 
