@@ -161,13 +161,13 @@ class UartHandler:
             await self.handleSET_DATA()
 
 
-
+logger = DebugLogger(level=DebugLogger.LEVEL_INFO, format_type=DebugLogger.FORMAT_FILE_LINE, log_file_path='uart.log')
              
 async def main():
     rxtx_fonk = RxTxFonk(logger)
     myUart = UartProtokol(rxtx_fonk,logger)
     uart_handler = UartHandler(rxtx_fonk,logger )
-    logger = DebugLogger(level=DebugLogger.LEVEL_INFO, format_type=DebugLogger.FORMAT_FILE_LINE, log_file_path='uart.log')
+    
 
     setdataval_manager = SetDatavalManager()
     setdataresponse_manager = SetDataResponseManager()
