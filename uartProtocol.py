@@ -58,7 +58,7 @@ class UartProtokol:
             
         elif recieveframe.get_msg_type() == messageTypeData.CLEAR_SESSION:
             setDataResponse.setClearSession(recieveframe.get_dataL())
-            self.logger.sinfo("charge", filename="uartProtocol.py", category="charge  stuation", status=f"clear session:{recieveframe.get_dataL()}")
+            self.logger.info("charge", filename="uartProtocol.py", category="charge  stuation", status=f"clear session:{recieveframe.get_dataL()}")
             print(f"clear session:{recieveframe.get_dataL()}")
             
         elif recieveframe.get_msg_type() == messageTypeData.MAX_POWER:
