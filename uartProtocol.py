@@ -122,8 +122,7 @@ class UartProtokol:
         elif recieveframe.get_msg_type() == messageTypeData.DEVICE_ID :
             readDataResponse.setDeviceId(recieveframe.get_dataL)
            # self.logger.status("charge", filename="uartProtocol.py", category="charge  stuation", status=f"read device id{recieveframe.get_dataL()}")
-            print(f"read device id{readDataResponse.getDeviceId()}")
-            
+            print(f"read device id{recieveframe.get_dataL()}")
  
 
     async def reciveHandleUartFrame(self):
