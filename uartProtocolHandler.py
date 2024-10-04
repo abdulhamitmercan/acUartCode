@@ -10,9 +10,9 @@ class SetDataValue:
     START_CHARGE = 1
 
    
-    END_TRANSACTION = 1
-    NOT_END_TRANSACTION = 0
-    START_BUZZER = 8
+    CLEAR_SESSION_ENABLE = 1 #END_TRANSACTION = 1
+    CLEAR_SESSION_DISABLE = 0 #NOT_END_TRANSACTION = 0
+    
 
 class UartHandler:
 
@@ -28,7 +28,7 @@ class UartHandler:
     def sendMaxPower(self):
         sendframe.set_cmd_type(cmdTypeData.SET_DATA)
         sendframe.set_msg_type(messageTypeData.MAX_POWER)
-        sendframe.set_dataL(setdataval.get_max_charge_val())
+        sendframe.set_dataL(setdataval.getMaxChargeVal())
         self.txHAL.send_message()
 
     def sendStopCharging(self):
@@ -37,24 +37,20 @@ class UartHandler:
         sendframe.set_dataL(SetDataValue.STOP_CHARGE)
         self.txHAL.send_message()
 
-    def sendReadEnergyIns(self):
-        sendframe.set_cmd_type(cmdTypeData.READ_DATA)
-        sendframe.set_msg_type(messageTypeData.ETOTAL)
-        self.txHAL.send_message()
 
     def sendReadDeviceId(self):
         sendframe.set_cmd_type(cmdTypeData.READ_DATA)
         sendframe.set_msg_type(messageTypeData.DEVICE_ID)
         self.txHAL.send_message()
 
-    def sendReadEnergyComplete(self):
+    def sendReadEnergy(self):
         sendframe.set_cmd_type(cmdTypeData.READ_DATA)
-        sendframe.set_msg_type(messageTypeData.ETOTAL_CHARGING_COMPLETE)
+        sendframe.set_msg_type(messageTypeData.ENERGY)
         self.txHAL.send_message()
 
-    def sendReadChargingTime(self):
+    def sendReadChargingTimeMinSec(self):
         sendframe.set_cmd_type(cmdTypeData.READ_DATA)
-        sendframe.set_msg_type(messageTypeData.CHARGING_TIME)
+        sendframe.set_msg_type(messageTypeData.CHARGING_TIME_MIN_SEC)
         self.txHAL.send_message()
 
     def sendReadChargingTimeHour(self):
@@ -62,9 +58,9 @@ class UartHandler:
         sendframe.set_msg_type(messageTypeData.CHARGING_TIME_HOURS)
         self.txHAL.send_message()
 
-    def sendReadPrms(self):
+    def sendReadPower(self):
         sendframe.set_cmd_type(cmdTypeData.READ_DATA)
-        sendframe.set_msg_type(messageTypeData.PRMS)
+        sendframe.set_msg_type(messageTypeData.POWER)
         self.txHAL.send_message()
 
     def sendReadErr(self):
@@ -72,27 +68,23 @@ class UartHandler:
         sendframe.set_msg_type(messageTypeData.ERR_STATUS)
         self.txHAL.send_message()
 
-    def sendReadChargeFinished(self):
+    def sendReadEVChargeTermination(self):
         sendframe.set_cmd_type(cmdTypeData.READ_DATA)
-        sendframe.set_msg_type(messageTypeData.CHARGE_FINISHED)
+        sendframe.set_msg_type(messageTypeData.EV_CHARGE_TERMINATION)
         self.txHAL.send_message()
 
-    '''def sendClearChargeSession(self):
-        sendframe.set_cmd_type(cmdTypeData.SET_DATA)
-        sendframe.set_msg_type(messageTypeData.RUN_CTRL)
-        sendframe.set_dataL(SetDataValue.START_BUZZER)
-        self.txHAL.send_message()'''
 
-    def sendEndTransaction(self):
+
+    def sendClearSessionEnable(self):
         sendframe.set_cmd_type(cmdTypeData.SET_DATA)
-        sendframe.set_msg_type(messageTypeData.END_TRANSACTION_SEND)
-        sendframe.set_dataL(SetDataValue.END_TRANSACTION)
+        sendframe.set_msg_type(messageTypeData.CLEAR_SESSION)
+        sendframe.set_dataL(SetDataValue.CLEAR_SESSION_ENABLE)
         self.txHAL.send_message()
 
-    def sendNotEndTransaction(self):
+    def sendClearSessionDisable(self):
         sendframe.set_cmd_type(cmdTypeData.SET_DATA)
-        sendframe.set_msg_type(messageTypeData.END_TRANSACTION_SEND)
-        sendframe.set_dataL(SetDataValue.NOT_END_TRANSACTION)
+        sendframe.set_msg_type(messageTypeData.CLEAR_SESSION)
+        sendframe.set_dataL(SetDataValue.CLEAR_SESSION_DISABLE)
         self.txHAL.send_message()
 
     def sendReadConnectorStatus(self):
@@ -107,23 +99,21 @@ class UartHandler:
     
     def sendSetBuzzer(self):    
         sendframe.set_cmd_type(cmdTypeData.SET_DATA)    
-        sendframe.set_msg_type(messageTypeData.CLEAR_CHARGE)    
-        sendframe.set_dataL(setdataval.get_baz_val())    
+        sendframe.set_msg_type(messageTypeData.BUZZER_CMD)    
+        sendframe.set_dataL(setdataval.getBazVal())    
         self.txHAL.send_message()
 
     async def handleSET_DATA(self):  
         
-        """"
+        
         self.sendMaxPower()  
-        await asyncio.sleep(0.2)
+        await asyncio.sleep(0.2) 
                
         self.sendSetBuzzer()
-        await asyncio.sleep(0.2)"""
-        
-        ''' self.sendClearChargeSession()
-        await asyncio.sleep(0.2)'''
+        await asyncio.sleep(0.2)
+   
          
-        if((setdataval.get_start_charge_val()== SetDataValue().START_CHARGE) ):
+        if((setdataval.getStartChargeVal()== SetDataValue().START_CHARGE) ):
             
             self.logger.status("charge", filename="uartProtocolHandler.py", category="charge stuation", status="---------------------------------startcharge-------------------------------------------------------")
             print("---------------------------------startcharge-------------------------------------------------------")
@@ -135,30 +125,29 @@ class UartHandler:
             self.sendStopCharging()
             await asyncio.sleep(0.2)
         
-        if(setdataval.get_transaction_val() == SetDataValue().END_TRANSACTION):
-            self.sendEndTransaction()
+        if(setdataval.getClearSessionval() == SetDataValue().CLEAR_SESSION_ENABLE):
+            self.sendClearSessionEnable
             await asyncio.sleep(0.2)
         else:
-            self.sendNotEndTransaction()
+            self.sendClearSessionDisable()
             await asyncio.sleep(0.2)
 
     async def handleREAD_DATA(self):
         
-        self.sendReadEnergyIns()
-        await asyncio.sleep(0.2)
+
         self.sendReadDeviceId()
         await asyncio.sleep(0.2)
-        self.sendReadEnergyComplete()
+        self.sendReadEnergy()
         await asyncio.sleep(0.2)
-        self.sendReadChargingTime()
+        self.sendReadChargingTimeMinSec()
         await asyncio.sleep(0.2)
         self.sendReadChargingTimeHour()
         await asyncio.sleep(0.2)
-        self.sendReadPrms()
+        self.sendMaxPower()
         await asyncio.sleep(0.2)
         self.sendReadErr()
         await asyncio.sleep(0.2)
-        self.sendReadChargeFinished()
+        self.sendReadEVChargeTermination()
         await asyncio.sleep(0.2)
         self.sendReadConnectorStatus()
         await asyncio.sleep(0.2)

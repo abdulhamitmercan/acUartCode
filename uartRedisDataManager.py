@@ -10,10 +10,10 @@ class SetDatavalManager:
     async def run(self):
         while True:
             # setdataval getting redis and write data menegement
-            setdataval.set_max_charge_val((int)(await self.redis_client.hget("Uart", "maxChargeVal")))
-            setdataval.set_baz_val((int)(await self.redis_client.hget("Uart", "bazVal")))
-            setdataval.set_transaction_val((int)(await self.redis_client.hget("Uart", "transactionVal")))
-            setdataval.set_start_charge_val((int)(await self.redis_client.hget("Uart", "startChargeVal")))
+            setdataval.setMaxChargeVal((int)(await self.redis_client.hget("Uart", "maxChargeVal")))
+            setdataval.setBazVal((int)(await self.redis_client.hget("Uart", "bazVal")))
+            setdataval.setClearSessionval((int)(await self.redis_client.hget("Uart", "transactionVal")))
+            setdataval.setStartChargeVal((int)(await self.redis_client.hget("Uart", "startChargeVal")))
 
             
             await asyncio.sleep(0.1)
@@ -27,9 +27,9 @@ class SetDataResponseManager:
         while True:
             #setdataresponse getting data menegement and write redis
             await self.redis_client.hset("Uart", "runControl", setDataResponse.getRunControl())
-            await self.redis_client.hset("Uart", "clearChargeSession", setDataResponse.getClearChargeSession())
-            await self.redis_client.hset("Uart", "endTransaction", setDataResponse.getEndTransaction())
-
+            await self.redis_client.hset("Uart", "buzzer", setDataResponse.getBuzzer())
+            await self.redis_client.hset("Uart", "clearSession", setDataResponse.getClearSession())
+            await self.redis_client.hset("Uart", "maxChargeValueResponse", setDataResponse.getMaxChargeValueResponse())
             
             await asyncio.sleep(0.1)
 
@@ -42,34 +42,31 @@ class ReadDataResponseManager:
         while True:
             #readdataresponse getting data menegement and write redis
             await self.redis_client.hset("Uart", "chargingStartStop", readDataResponse.getChargingStartStop())
-            await self.redis_client.hset("Uart", "energyTotalComplate", readDataResponse.getEnergyTotalComplate())
+            await self.redis_client.hset("Uart", "energy", readDataResponse.getEnergy())
             await self.redis_client.hset("Uart", "timeSeconds", readDataResponse.getTimeSeconds())
             await self.redis_client.hset("Uart", "timeMinutes", readDataResponse.getTimeMinutes())
             await self.redis_client.hset("Uart", "timeHours", readDataResponse.getTimeHours())
-            await self.redis_client.hset("Uart", "rmsPowerValue", readDataResponse.getRmsPowerValue())
+            await self.redis_client.hset("Uart", "rmsPowerValue", readDataResponse.getPower())
             await self.redis_client.hset("Uart", "errorType", readDataResponse.getErrorType())
-            await self.redis_client.hset("Uart", "chargeComplete", readDataResponse.getChargeComplete())
             await self.redis_client.hset("Uart", "chargingStatus", readDataResponse.getChargingStatus())
             await self.redis_client.hset("Uart", "connectorStatus", readDataResponse.getConnectorStatus())
             await self.redis_client.hset("Uart", "deviceId", readDataResponse.getDeviceId())
-            await self.redis_client.hset("Uart", "chargeFinished", readDataResponse.getChargeFinished())
+            await self.redis_client.hset("Uart", "chargeFinished", readDataResponse.getEVChargeTermination())
 
             print("redis read data response set")
             await asyncio.sleep(0.1)
 
 
-"""
-async def main():
+# async def main():
     
-    setdataval_manager = SetDatavalManager()
-    setdataresponse_manager = SetDataResponseManager()
-    readdataresponse_manager = ReadDataResponseManager()
+#     setdataval_manager = SetDatavalManager()
+#     setdataresponse_manager = SetDataResponseManager()
+#     readdataresponse_manager = ReadDataResponseManager()
 
     
-    await asyncio.gather(setdataval_manager.run(),setdataresponse_manager.run(),readdataresponse_manager.run())
+#     await asyncio.gather(setdataval_manager.run(),setdataresponse_manager.run(),readdataresponse_manager.run())
 
 
-if __name__ == '__main__':
-    asyncio.run(main())
+# if __name__ == '__main__':
+#     asyncio.run(main())
 
-"""
