@@ -1,0 +1,10 @@
+"./main.obj"
+"./acmeter/PetitModbus.obj"
+"./acmeter/PetitModbusPort.obj"
+"./acmeter/PetitRegConstant.obj"
+"./communication/softuart.obj"
+"./ws2812/ws2812.obj"
+"../lnk_msp430f67751.cmd"
+-llibmath.a
+-l"C:/ti/msp430ware_3_80_14_01/iqmathlib/libraries/CCS/MPY32/5xx_6xx/IQmathLib.a"
+-llibc.a

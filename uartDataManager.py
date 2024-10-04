@@ -40,19 +40,19 @@ class SetDataResponse:
         self._buzzer = 0
         self._clearSession = 0
         self._maxChargeValueResponse = 0
-    def setRunControl(self, value):
+    def setRunControlValueResponse(self, value):
         self._runControl = value
-    def getRunControl(self):
+    def getRunControlValueResponse(self):
         return self._runControl
 
-    def setBuzzer(self, value):
+    def setBuzzerValueResponse(self, value):
         self._buzzer = value
-    def getBuzzer(self):
+    def getBuzzerValueResponse(self):
         return self._buzzer
 
-    def setClearSession(self, value):
+    def setClearSessionValueResponse(self, value):
         self._clearSession = value
-    def getClearSession(self):
+    def getClearSessionValueResponse(self):
         return self._clearSession
     
     def setMaxChargeValueResponse(self, value):

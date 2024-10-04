@@ -46,18 +46,18 @@ class UartProtokol:
         if recieveframe.get_msg_type() == messageTypeData.MODE:
             pass
         elif recieveframe.get_msg_type() == messageTypeData.RUN_CTRL:
-            setDataResponse.setRunControl(recieveframe.get_dataL())
+            setDataResponse.setRunControlValueResponse(recieveframe.get_dataL())
             self.logger.info("", filename="uartProtocol.py", category="charge  stuation", status=f"runcntrl: {recieveframe.get_dataL()}")
             #print(f"runcntrl: {recieveframe.get_dataL()}")
 
             
         elif recieveframe.get_msg_type() == messageTypeData.BUZZER_CMD:
-            setDataResponse.setBuzzer(recieveframe.get_dataL())
+            setDataResponse.setBuzzerValueResponse(recieveframe.get_dataL())
             self.logger.info("", filename="uartProtocol.py", category="charge  stuation", status=f"buzzer:{recieveframe.get_dataL()}")
             #print(f"buzzer:{recieveframe.get_dataL()}")
             
         elif recieveframe.get_msg_type() == messageTypeData.CLEAR_SESSION:
-            setDataResponse.setClearSession(recieveframe.get_dataL())
+            setDataResponse.setClearSessionValueResponse(recieveframe.get_dataL())
             self.logger.info("", filename="uartProtocol.py", category="charge  stuation", status=f"clear session:{recieveframe.get_dataL()}")
             #print(f"clear session:{recieveframe.get_dataL()}")
             
