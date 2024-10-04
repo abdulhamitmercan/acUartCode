@@ -29,7 +29,7 @@ class SetDataResponseManager:
             # await self.redis_client.hset("Uart", "runControlValueResponse", setDataResponse.getRunControlValueResponse())
             # await self.redis_client.hset("Uart", "buzzerValueResponse", setDataResponse.getBuzzerValueResponse())
             # await self.redis_client.hset("Uart", "clearSessionValueResponse", setDataResponse.getClearSessionValueResponse())
-            await self.redis_client.hset("Uart", "maxChargeValueResponse", setDataResponse.getMaxChargeValueResponse())
+            # await self.redis_client.hset("Uart", "maxChargeValueResponse", setDataResponse.getMaxChargeValueResponse())
             
             await asyncio.sleep(0.1)
 
