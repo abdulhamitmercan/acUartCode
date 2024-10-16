@@ -102,6 +102,13 @@ class UartHandler:
         sendframe.set_msg_type(messageTypeData.BUZZER_CMD)    
         sendframe.set_dataL(setdataval.getBazVal())    
         self.txHAL.send_message()
+    
+    def sendSetUnlockConn(self):    
+        sendframe.set_cmd_type(cmdTypeData.SET_DATA)    
+        sendframe.set_msg_type(messageTypeData.UNLOCK_CONNECTOR)    
+        sendframe.set_dataL(setdataval.getUnlockConn())    
+        self.txHAL.send_message()
+    
 
     async def handleSET_DATA(self):  
         
@@ -110,6 +117,9 @@ class UartHandler:
         await asyncio.sleep(0.1) 
                
         self.sendSetBuzzer()
+        await asyncio.sleep(0.1)
+
+        self.sendSetUnlockConn()
         await asyncio.sleep(0.1)
    
          

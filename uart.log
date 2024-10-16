@@ -1,0 +1,26 @@
+[INFO] 2024-10-16 10:51:29,498 - uartProtocol.py - charge  stuation - -------READ data response-------- - 
+[INFO] 2024-10-16 10:51:29,499 - uartProtocol.py - charge  stuation - read device id99 - 
+[INFO] 2024-10-16 10:51:29,600 - uartProtocol.py - charge  stuation - -------READ data response-------- - 
+[INFO] 2024-10-16 10:51:29,601 - uartProtocol.py - charge  stuation - read energy:0 - 
+[INFO] 2024-10-16 10:51:29,702 - uartProtocol.py - charge  stuation - -------READ data response-------- - 
+[INFO] 2024-10-16 10:51:29,703 - uartProtocol.py - charge  stuation - read rms value of power:0 - 
+[INFO] 2024-10-16 10:51:29,804 - uartProtocol.py - charge  stuation - -------READ data response-------- - 
+[INFO] 2024-10-16 10:51:29,805 - uartProtocol.py - charge  stuation - read timesaniye0 - 
+[INFO] 2024-10-16 10:51:29,806 - uartProtocol.py - charge  stuation - read timedakika0 - 
+[INFO] 2024-10-16 10:51:29,907 - uartProtocol.py - charge  stuation - -------READ data response-------- - 
+[INFO] 2024-10-16 10:51:29,908 - uartProtocol.py - charge  stuation - read device time hours 0 - 
+[INFO] 2024-10-16 10:51:30,009 - uartProtocol.py - charge  stuation - -------set data response-------- - 
+[INFO] 2024-10-16 10:51:30,010 - uartProtocol.py - charge  stuation - Max Charge Value Response :0 - 
+[INFO] 2024-10-16 10:51:30,112 - uartProtocol.py - charge  stuation - -------READ data response-------- - 
+[INFO] 2024-10-16 10:51:30,113 - uartProtocol.py - charge  stuation - type of error:0 - 
+[INFO] 2024-10-16 10:51:30,214 - uartProtocol.py - charge  stuation - -------READ data response-------- - 
+[INFO] 2024-10-16 10:51:30,214 - uartProtocol.py - charge  stuation - EV_CHARGE_TERMINATION:0 - 
+[INFO] 2024-10-16 10:51:30,316 - uartProtocol.py - charge  stuation - -------READ data response-------- - 
+[INFO] 2024-10-16 10:51:30,317 - uartProtocol.py - charge  stuation - conn status:0 - 
+[ERROR] 2024-10-16 10:51:30,435 - uartHal.py - message  stuation - Geçersiz mesaj uzunluğu:, 15 - 
+[ERROR] 2024-10-16 10:51:30,546 - uartHal.py - message  stuation - Geçersiz mesaj uzunluğu:, 9 - 
+[INFO] 2024-10-16 10:51:30,620 - uartProtocolHandler.py - charge stuation - ----------stopcharge------------- - 
+[INFO] 2024-10-16 10:51:30,721 - uartProtocol.py - charge  stuation - -------set data response-------- - 
+[INFO] 2024-10-16 10:51:30,722 - uartProtocol.py - charge  stuation - runcntrl: 0 - 
+[INFO] 2024-10-16 10:51:30,823 - uartProtocol.py - charge  stuation - -------set data response-------- - 
+[INFO] 2024-10-16 10:51:30,824 - uartProtocol.py - charge  stuation - clear session:0 - 

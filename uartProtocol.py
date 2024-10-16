@@ -26,6 +26,7 @@ class MessageTypeData:
     CONNECTOR_STATUS = 11
     CHARGING_TIME_HOURS = 12
     MAX_POWER= 13
+    UNLOCK_CONNECTOR = 14
     
     
 messageTypeData = MessageTypeData()
@@ -61,10 +62,14 @@ class UartProtokol:
             self.logger.info("", filename="uartProtocol.py", category="charge  stuation", status=f"clear session:{recieveframe.get_dataL()}")
             #print(f"clear session:{recieveframe.get_dataL()}")
             
-        elif recieveframe.get_msg_type() == messageTypeData.MAX_POWER:
+        elif recieveframe.get_msg_type() == messageTypeData.UNLOCK_CONNECTOR:
             setDataResponse.setMaxChargeValueResponse(recieveframe.get_dataL())
-            self.logger.info("", filename="uartProtocol.py", category="charge  stuation", status=f"Max Charge Value Response :{recieveframe.get_dataL()}")
+            self.logger.info("", filename="uartProtocol.py", category="charge  situation", status=f"Unlock connector Response :{recieveframe.get_dataL()}")
             #print(f"Max Charge Value Response:{recieveframe.get_dataL()}")
+
+        elif recieveframe.get_msg_type() == messageTypeData.MAX_POWER:
+            setDataResponse.setUnlockConnResponse(recieveframe.get_dataL())
+            self.logger.info("", filename="uartProtocol.py", category="charge  stuation", status=f"Max Charge Value Response :{recieveframe.get_dataL()}")
 
     def handleREAD_DATA_RES(self):
         self.logger.info("", filename="uartProtocol.py", category="charge  stuation", status="-------READ data response--------")
@@ -100,7 +105,7 @@ class UartProtokol:
             #print(f"read rms value of power:{recieveframe.get_dataL()}")
             
         elif recieveframe.get_msg_type() == messageTypeData.ERR_STATUS:
-            readDataResponse.setErrorType(recieveframe.get_dataL())
+            readDataResponse.setErrorType(recieveframe.get_dataH()<<8 | recieveframe.get_dataL())
             self.logger.info("", filename="uartProtocol.py", category="charge  stuation", status=f"type of error:{recieveframe.get_dataL()}")
             #print(f"type of error:{recieveframe.get_dataL()}")
             

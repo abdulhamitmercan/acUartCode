@@ -5,6 +5,7 @@ class setDataval:
         self._bazVal = 0
         self._clearSessionval = 0
         self._startChargeVal = 0
+        self._unlockConn = 0
         
     # max_charge_val 
     def setMaxChargeVal(self, value):
@@ -32,6 +33,12 @@ class setDataval:
 
     def getStartChargeVal(self):
         return self._startChargeVal   
+
+    def setUnlockConn(self, value):
+        self._unlockConn = value
+
+    def getUnlockConn(self):
+        return self._unlockConn  
        
     
 class SetDataResponse:
@@ -40,6 +47,7 @@ class SetDataResponse:
         self._buzzer = 0
         self._clearSession = 0
         self._maxChargeValueResponse = 0
+        self._unlockConnResponse = 0
     def setRunControlValueResponse(self, value):
         self._runControl = value
     def getRunControlValueResponse(self):
@@ -59,6 +67,11 @@ class SetDataResponse:
         self._maxChargeValueResponse =  value
     def getMaxChargeValueResponse(self):
         return self._maxChargeValueResponse
+
+    def setUnlockConnResponse(self, value):
+        self._unlockConnResponse =  value
+    def getUnlockConnResponse(self):
+        return self._unlockConnResponse
 
 class ReadDataResponse:
     def __init__(self):
