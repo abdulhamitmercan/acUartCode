@@ -82,7 +82,7 @@ class UartProtokol:
             #print(f"charging start stop:{recieveframe.get_dataL()}")
             
         elif recieveframe.get_msg_type() == messageTypeData.ENERGY:
-            readDataResponse.setEnergy(recieveframe.get_dataL())
+            readDataResponse.setEnergy(recieveframe.get_dataH()<<8 | recieveframe.get_dataL())
             self.logger.info("", filename="uartProtocol.py", category="charge  stuation", status=f"read energy:{recieveframe.get_dataL()}")
             #print(f"read energy:{recieveframe.get_dataL()}") 
             
