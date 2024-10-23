@@ -1,6 +1,7 @@
 import serial
 import asyncio
 from dataclasses import dataclass
+import serial_asyncio
 
 @dataclass
 class UARTFrame:
@@ -55,13 +56,13 @@ recieveframe = UARTFrame()
 
 ser = serial.Serial("/dev/ttyS0", 9600)
 
-import asyncio
-
 class RxTxFonk:
-    def __init__(self ,logger=None):
+    def __init__(self, logger=None):
         self.recieve_message_err_status = None
         self.rxSuccess = 0
         self.logger = logger
+        self.buffer = bytearray()  # Buffer to accumulate received data
+
     def uartformat_to_rawdata_send_message(self): 
         byte_list = [
             sendframe.header,
@@ -77,11 +78,11 @@ class RxTxFonk:
 
     def rawdata_to_uartformat_recieve_message(self, received_message):
         if len(received_message) != 8:
-            self.logger.error("", filename="uartHal.py", category="message  stuation", status=f"Geçersiz mesaj uzunluğu:, {len(received_message)}")
-            #print("Geçersiz mesaj uzunluğu:", len(received_message))
+            self.logger.error("", filename="uartHal.py", category="message situation", status=f"Geçersiz mesaj uzunluğu: {len(received_message)}")
             return None
         else:
             byte_list = [0] * 8
+            
             for index, byte in enumerate(received_message):
                 byte_list[index] = byte
 
@@ -90,42 +91,72 @@ class RxTxFonk:
                 recieveframe.set_msg_type(byte_list[2])
                 recieveframe.set_dataH(byte_list[5])
                 recieveframe.set_dataL(byte_list[6])
-                self.recieve_message_err_status = 0
-                
+                self.recieve_message_err_status = 0                
                 self.rxSuccess = 1
                 
                 return self.recieve_message_err_status
             else:
-                self.logger.error("", filename="uatHal.py", category="message stuation", status="Hatalı mesaj alındı")
-                #print("Hatalı mesaj alındı")
+                self.logger.error("", filename="uatHal.py", category="message situation", status="Hatalı mesaj alındı")
                 self.recieve_message_err_status = 1
                 return self.recieve_message_err_status
 
     def send_message(self):
-        #while True:
         formatted_message = self.uartformat_to_rawdata_send_message()
-            #await asyncio.sleep(2)
         ser.write(formatted_message)
-            #await asyncio.sleep(0.01)
 
     async def receive_message(self):
         while True:
             if ser.in_waiting >= 8:
-                received_data = ser.read()
-                await asyncio.sleep(0.005)
-                data_left = ser.in_waiting
-                received_data += ser.read(data_left)
-                recieve_message_err_status = self.rawdata_to_uartformat_recieve_message(received_data)
-                 
-                if recieve_message_err_status == 1:
-                    self.logger.error("", filename="uatHal.py", category="message situation", status=" alınan veri")
-                    #print("Alınan veri:")
-                    for index, byte in enumerate(received_data):
-                        self.logger.error("", filename="uartHal.py", category="message  situation", status=f"Bayt {index}: {byte:02X}")
-                        #print(f"Bayt {index}: {byte:02X}")
-                
-            await asyncio.sleep(0.01)
-        
+                # Okunan verileri al
+                received_data = ser.read(8)
+                self.buffer.extend(received_data)
 
-            
+                # Mesajı işleme
+                while len(self.buffer) >= 8:
+                    data_to_process = self.buffer[:8]
+                    self.buffer = self.buffer[8:]
+                    recieve_message_err_status = self.rawdata_to_uartformat_recieve_message(data_to_process)
 
+                    if recieve_message_err_status == 1:
+                        self.logger.error("", filename="uatHal.py", category="message situation", status="Alınan veri")
+                        for index, byte in enumerate(data_to_process):
+                            self.logger.error("", filename="uartHal.py", category="message situation", status=f"Bayt {index}: {byte:02X}")
+
+            await asyncio.sleep(0.01)  # Bekleme süresi
+
+    def connection_made(self, transport):
+        self.transport = transport
+        print("Bağlandı!")
+
+    def data_received(self, data):
+        self.buffer.extend(data)
+        while len(self.buffer) >= 8:
+            data_to_process = self.buffer[:8]
+            self.buffer = self.buffer[8:]
+
+            recieve_message_err_status = self.rawdata_to_uartformat_recieve_message(data_to_process)
+
+            if recieve_message_err_status == 1:
+                self.logger.error("", filename="uatHal.py", category="message situation", status="Alınan veri")
+                for index, byte in enumerate(data_to_process):
+                    self.logger.error("", filename="uartHal.py", category="message situation", status=f"Bayt {index}: {byte:02X}")
+
+    def connection_lost(self, exc):
+        print("Bağlantı kesildi!")
+        asyncio.get_event_loop().stop()
+
+
+
+
+
+"""
+async def main():
+    logger = None  # Logger'ı buraya ekleyin
+    rx_tx_fonk = RxTxFonk(logger)
+
+    while True:
+        await rx_tx_fonk.receive_message()
+
+if __name__ == "__main__":
+    asyncio.run(main())
+"""

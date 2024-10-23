@@ -4,6 +4,8 @@ from uartHal import RxTxFonk, sendframe
 from uartDataManager import  setdataval
 from uartRedisDataManager import SetDatavalManager, SetDataResponseManager, ReadDataResponseManager
 from debug_logger import DebugLogger
+import serial_asyncio
+
 class SetDataValue:
     # Sabit değerler  
     STOP_CHARGE = 2
@@ -114,13 +116,13 @@ class UartHandler:
         
         
         self.sendMaxPower()  
-        await asyncio.sleep(0.1) 
+        await asyncio.sleep(0.2) 
                
         self.sendSetBuzzer()
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
 
         self.sendSetUnlockConn()
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
    
          
         if((setdataval.getStartChargeVal()== SetDataValue().START_CHARGE) ):
@@ -128,44 +130,49 @@ class UartHandler:
             self.logger.info("", filename="uartProtocolHandler.py", category="charge stuation", status="---------startcharge--------------")
             #print("---------------------------------startcharge-------------------------------------------------------")
             self.sendStartCharging()    
-            await asyncio.sleep(0.1)    
+            await asyncio.sleep(0.2)    
         else:
             self.logger.info("", filename="uartProtocolHandler.py", category="charge stuation", status="----------stopcharge-------------")
             #print("---------------------------------stopcharge-------------------------------------------------------")
             self.sendStopCharging()
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.2)
         
         if(setdataval.getClearSessionval() == SetDataValue().CLEAR_SESSION_ENABLE):
             self.sendClearSessionEnable()
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.2)
         else:
             self.sendClearSessionDisable()
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.2)
 
     async def handleREAD_DATA(self):
         
-
         self.sendReadDeviceId()
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         self.sendReadEnergy()
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         self.sendReadPower()
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         self.sendReadChargingTimeMinSec()
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         self.sendReadChargingTimeHour()
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         self.sendMaxPower()
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         self.sendReadErr()
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         self.sendReadEVChargeTermination()
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         self.sendReadConnectorStatus()
-        await asyncio.sleep(0.1)
-        
+        await asyncio.sleep(0.2)
         self.sendReadChargingStatus()
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
+
+    async def criticalRead(self):
+        while True:
+            self.sendReadChargingTimeMinSec()
+            await asyncio.sleep(1)
+            self.sendReadConnectorStatus()
+            await asyncio.sleep(1)
 
     async def sendHandleUartFrame(self):
         while True:
@@ -180,15 +187,21 @@ async def main():
     myUart = UartProtokol(rxtx_fonk,logger)
     uart_handler = UartHandler(rxtx_fonk,logger )
     
+    port = '/dev/ttyS0'  # Bağlantı noktasını değiştirin
+    baudrate = 9600
 
     setdataval_manager = SetDatavalManager()
     setdataresponse_manager = SetDataResponseManager()
     readdataresponse_manager = ReadDataResponseManager()
 
+    loop = asyncio.get_event_loop()
+    await serial_asyncio.create_serial_connection(loop, lambda: rxtx_fonk, port, baudrate)
+
     await asyncio.gather(
-        rxtx_fonk.receive_message(),
+        #rxtx_fonk.receive_message(),
         myUart.reciveHandleUartFrame(),
         uart_handler.sendHandleUartFrame(),
+        #uart_handler.criticalRead(),
 
         setdataval_manager.run(),
         setdataresponse_manager.run(),
